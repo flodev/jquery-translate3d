@@ -3,6 +3,9 @@
  * Original author: @ajpiano
  * Further changes, comments: @addyosmani
  * Licensed under the MIT license
+ *
+ * jquery-translate3d
+ * author: Florian Biewald <f.biewald@gmail.com>
  */
 
 // the semi-colon before the function invocation is a safety
@@ -24,41 +27,44 @@
     // regularly referenced in your plugin).
 
     // Create the defaults once
-    var pluginName = "defaultPluginName",
+    var pluginName = "translate3d",
         defaults = {
-            propertyName: "value"
+            x: 0,
+            y: 0,
+            z: 0
         };
 
     // The actual plugin constructor
-    function Plugin( element, options ) {
+    function Plugin( element ) {
         this.element = element;
-
-        // jQuery has an extend method that merges the
-        // contents of two or more objects, storing the
-        // result in the first object. The first object
-        // is generally empty because we don't want to alter
-        // the default options for future instances of the plugin
-        this.options = $.extend( {}, defaults, options) ;
+        this.jqElement = $(element);
 
         this._defaults = defaults;
         this._name = pluginName;
-
-        this.init();
     }
 
     Plugin.prototype = {
+        initOptions: function(options) {
+            this.options = $.extend( {}, defaults, options);
 
-        init: function() {
-            // Place initialization logic here
-            // You already have access to the DOM element and
-            // the options via the instance, e.g. this.element
-            // and this.options
-            // you can add more functions like the one below and
-            // call them like so: this.yourOtherFunction(this.element, this.options).
+            if (this.values === undefined) {
+                this.values = {x: 0, y: 0, z: 0};
+            }
         },
 
-        yourOtherFunction: function(el, options) {
-            // some logic
+        translate3d: function() {
+            values = this.values;
+            values.x+= this.options.x;
+            values.y+= this.options.y;
+            values.z+= this.options.z;
+
+            this.jqElement.css({
+                '-webkit-transform': 'translate3d(' + values.x + 'px,' + values.y + 'px,' + values.z + 'px)',  /* Chrome, Safari 3.1+ */
+                '-moz-transform': 'translate3d(' + values.x + 'px,' + values.y + 'px,' + values.z + 'px)',  /* Firefox 3.5-15 */
+                '-ms-transform': 'translate3d(' + values.x + 'px,' + values.y + 'px,' + values.z + 'px)',  /* IE 9 */
+                '-o-transform': 'translate3d(' + values.x + 'px,' + values.y + 'px,' + values.z + 'px)',  /* Opera 10.50-12.00 */
+                'transform': 'translate3d(' + values.x + 'px,' + values.y + 'px,' + values.z + 'px)'  /* Firefox 16+, IE 10+, Opera 12.10+ */
+            });
         }
     };
 
@@ -66,10 +72,13 @@
     // preventing against multiple instantiations
     $.fn[pluginName] = function ( options ) {
         return this.each(function () {
+            var plugin;
             if (!$.data(this, "plugin_" + pluginName)) {
-                $.data(this, "plugin_" + pluginName,
-                new Plugin( this, options ));
+                $.data(this, "plugin_" + pluginName, new Plugin( this));
             }
+            plugin = $.data(this, "plugin_" + pluginName);
+            plugin.initOptions(options);
+            plugin.translate3d();
         });
     };
 

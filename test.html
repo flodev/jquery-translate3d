@@ -15,12 +15,14 @@
 
   <!-- include source files here... -->
   <script type="text/javascript" src="lib/jquery/jquery.js"></script>
+  <script type="text/javascript" src="lib/jasmine-jquery/lib/jasmine-jquery.js"></script>
   <script type="text/javascript" src="jquery-translate3d.js"></script>
 
   <script type="text/javascript">
     (function() {
       var jasmineEnv = jasmine.getEnv();
       jasmineEnv.updateInterval = 1000;
+      jasmine.getFixtures().fixturesPath = 'test/fixtures';
 
       var htmlReporter = new jasmine.HtmlReporter();
 
