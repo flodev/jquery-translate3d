@@ -16,5 +16,8 @@ describe('jquery-translate 3d test', function() {
         loadFixtures('testdiv.html');
         $('#testdiv').translate3d({rotate: 20});
         expect($('#testdiv').attr('style').indexOf('rotate(20deg)')).not.toEqual(-1);
+        // test keep other values untouched
+        $('#testdiv').translate3d({x: 20});
+        expect($('#testdiv').attr('style').indexOf('rotate(20deg)')).not.toEqual(-1);
     });
 });

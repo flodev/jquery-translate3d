@@ -47,10 +47,10 @@
     Plugin.prototype = {
 
         initOptions: function(options) {
-            this.options = $.extend( {}, defaults, options);
+            this.options = $.extend({}, defaults, options);
 
             if (this.values === undefined) {
-                this.values = defaults;
+                this.values = $.extend({}, defaults);
             }
         },
 
