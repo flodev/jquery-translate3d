@@ -31,7 +31,8 @@
         defaults = {
             x: 0,
             y: 0,
-            z: 0
+            z: 0,
+            rotate: 0
         };
 
     // The actual plugin constructor
@@ -44,11 +45,12 @@
     }
 
     Plugin.prototype = {
+
         initOptions: function(options) {
             this.options = $.extend( {}, defaults, options);
 
             if (this.values === undefined) {
-                this.values = {x: 0, y: 0, z: 0};
+                this.values = defaults;
             }
         },
 
@@ -57,14 +59,21 @@
             values.x+= this.options.x;
             values.y+= this.options.y;
             values.z+= this.options.z;
+            values.rotate+= this.options.rotate;
 
             this.jqElement.css({
-                '-webkit-transform': 'translate3d(' + values.x + 'px,' + values.y + 'px,' + values.z + 'px)',  /* Chrome, Safari 3.1+ */
-                '-moz-transform': 'translate3d(' + values.x + 'px,' + values.y + 'px,' + values.z + 'px)',  /* Firefox 3.5-15 */
-                '-ms-transform': 'translate3d(' + values.x + 'px,' + values.y + 'px,' + values.z + 'px)',  /* IE 9 */
-                '-o-transform': 'translate3d(' + values.x + 'px,' + values.y + 'px,' + values.z + 'px)',  /* Opera 10.50-12.00 */
-                'transform': 'translate3d(' + values.x + 'px,' + values.y + 'px,' + values.z + 'px)'  /* Firefox 16+, IE 10+, Opera 12.10+ */
+                '-webkit-transform': this.getTransform(),  /* Chrome, Safari 3.1+ */
+                '-moz-transform': this.getTransform(),  /* Firefox 3.5-15 */
+                '-ms-transform': this.getTransform(),  /* IE 9 */
+                '-o-transform': this.getTransform(),  /* Opera 10.50-12.00 */
+                'transform': this.getTransform()  /* Firefox 16+, IE 10+, Opera 12.10+ */
             });
+        },
+
+        getTransform: function() {
+            var transform = 'translate3d(' + this.values.x + 'px,' + this.values.y + 'px,' + this.values.z + 'px)'
+                          + ' rotate(' + this.values.rotate + 'deg)';
+            return transform;
         }
     };
 

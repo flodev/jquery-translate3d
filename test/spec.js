@@ -1,4 +1,5 @@
 describe('jquery-translate 3d test', function() {
+
     it('translates 3d', function() {
         loadFixtures('testdiv.html');
         position = $('#testdiv').offset();
@@ -9,5 +10,11 @@ describe('jquery-translate 3d test', function() {
         $('#testdiv').translate3d({x: 10});
         newPosition2 = $('#testdiv').offset();
         expect(newPosition2.left - position.left).toEqual(15);
+    });
+
+    it('rotates', function() {
+        loadFixtures('testdiv.html');
+        $('#testdiv').translate3d({rotate: 20});
+        expect($('#testdiv').attr('style').indexOf('rotate(20deg)')).not.toEqual(-1);
     });
 });
