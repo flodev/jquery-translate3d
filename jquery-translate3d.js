@@ -31,8 +31,7 @@
         defaults = {
             x: 0,
             y: 0,
-            z: 0,
-            rotate: 0
+            z: 0
         };
 
     // The actual plugin constructor
@@ -59,7 +58,10 @@
             values.x+= this.options.x;
             values.y+= this.options.y;
             values.z+= this.options.z;
-            values.rotate+= this.options.rotate;
+            // define rotate only if rotate option is set
+            if (this.options.rotate !== undefined) {
+                values.rotate = this.options.rotate;
+            }
 
             this.jqElement.css({
                 '-webkit-transform': this.getTransform(),  /* Chrome, Safari 3.1+ */
@@ -71,8 +73,12 @@
         },
 
         getTransform: function() {
-            var transform = 'translate3d(' + this.values.x + 'px,' + this.values.y + 'px,' + this.values.z + 'px)'
-                          + ' rotate(' + this.values.rotate + 'deg)';
+            var transform = 'translate3d(' + this.values.x + 'px,' + this.values.y + 'px,' + this.values.z + 'px)';
+
+            if (this.values.rotate !== undefined) {
+                transform+= ' rotate(' + this.values.rotate + 'deg)';
+            }
+
             return transform;
         }
     };

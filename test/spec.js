@@ -1,3 +1,4 @@
+
 describe('jquery-translate 3d test', function() {
 
     it('translates 3d', function() {
@@ -18,6 +19,9 @@ describe('jquery-translate 3d test', function() {
         expect($('#testdiv').attr('style').indexOf('rotate(20deg)')).not.toEqual(-1);
         // test keep other values untouched
         $('#testdiv').translate3d({x: 20});
+        expect($('#testdiv').attr('style').indexOf('rotate(20deg)')).not.toEqual(-1);
+        // stays the same value and won't get calculated with previous
+        $('#testdiv').translate3d({rotate: 20});
         expect($('#testdiv').attr('style').indexOf('rotate(20deg)')).not.toEqual(-1);
     });
 });
