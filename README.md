@@ -4,6 +4,11 @@ jquery-translate3d
 jQuery plugin that transforms HTML-elements depending on the previous transformation.
 See this blogpost for further information http://flodev.blogspot.de/2013/12/simple-jquery-translate3d-plugin.html
 
+Features
+------------------
+* use translate3d (and rotate :)) depending on the previous transformation
+* uses cross browser prefixes (-moz-, -webkit- etc.)
+
 Usage
 ------------------
 The following code examples are executed one after another.
