@@ -1,11 +1,11 @@
 {
   "name": "jquery-translate3d",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "authors": [
     "Florian Biewald <f.biewald@googlemail.com>"
   ],
   "description": "jQuery plugin that transforms HTML-elements depending on the previous transformation.",
-  "main": "js/tests/tests.js",
+  "main": "jquery-translate3d.js",
   "keywords": [
     "jquery",
     "javascript",
