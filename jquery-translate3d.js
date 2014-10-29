@@ -31,13 +31,19 @@
         defaults = {
             x: 0,
             y: 0,
-            z: 0
+            z: 0,
+            scale: {
+                x: 1,
+                y: 1,
+                z: 1
+            }
         };
 
     // The actual plugin constructor
     function Plugin( element ) {
         this.element = element;
         this.jqElement = $(element);
+        this.isScaleActive = false;
 
         this._defaults = defaults;
         this._name = pluginName;
@@ -46,7 +52,20 @@
     Plugin.prototype = {
 
         initOptions: function(options) {
-            this.options = $.extend({}, defaults, options);
+            this.options = $.extend(true, {}, defaults, options);
+            this.userOptions = options;
+
+            // activate scale once
+            if (!this.isScaleActive) {
+                this.isScaleActive = options.scale !== undefined;
+            }
+            this.hasScale = options.scale !== undefined;
+
+            if (this.hasScale) {
+                if (!$.isPlainObject(options.scale)) {
+                    throw new Error('scale needs to be an object');
+                }
+            }
 
             if (this.values === undefined) {
                 this.values = $.extend({}, defaults);
@@ -58,6 +77,19 @@
             values.x+= this.options.x;
             values.y+= this.options.y;
             values.z+= this.options.z;
+
+            if (this.hasScale) {
+                if (this.userOptions.scale.x !== undefined) {
+                    this.values.scale.x = this.userOptions.scale.x;
+                }
+                if (this.userOptions.scale.y !== undefined) {
+                    this.values.scale.y = this.userOptions.scale.y;
+                }
+                if (this.userOptions.scale.z !== undefined) {
+                    this.values.scale.z = this.userOptions.scale.z;
+                }
+            }
+
             // define rotate only if rotate option is set
             if (this.options.rotate !== undefined) {
                 values.rotate = this.options.rotate;
@@ -73,10 +105,20 @@
         },
 
         getTransform: function() {
-            var transform = 'translate3d(' + this.values.x + 'px,' + this.values.y + 'px,' + this.values.z + 'px)';
+            var transform = 'translate3d('
+                + this.values.x + 'px,'
+                + this.values.y + 'px,'
+                + this.values.z + 'px)';
 
             if (this.values.rotate !== undefined) {
                 transform+= ' rotate(' + this.values.rotate + 'deg)';
+            }
+
+            if (this.isScaleActive) {
+                transform+= ' scale3d('
+                    + this.values.scale.x + ','
+                    + this.values.scale.y + ','
+                    + this.values.scale.z + ')';
             }
 
             return transform;
