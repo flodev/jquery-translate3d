@@ -1,3 +1,4 @@
 .DS_Store
 *.sublime-*
 lib
+node_modules
